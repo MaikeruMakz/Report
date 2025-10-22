@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="page-container">
     <header>
         <div id="globalClock" class="clock"></div>
         <h1>MMDA - EFCOS: Effective Flood Control Operation System (EFCOS)</h1>
@@ -383,11 +383,11 @@ ${gateStatusText}`;
         waterIds.forEach(id => {
             const el = document.getElementById(id);
             if(el) {
-                // Initialize display
+                
                 if(!el.value || el.value === "0") el.value = "(NO DATA)";
 
                 el.addEventListener("input", () => {
-                    // Remove non-digits
+                    
                     let value = el.value.replace(/\D/g, "");
 
                     if(!value || parseInt(value) === 0) {
@@ -395,10 +395,10 @@ ${gateStatusText}`;
                         return;
                     }
 
-                    // Limit to 5 digits max
+                    
                     if(value.length > 4) value = value.slice(0,4);
 
-                    // Insert decimal before last two digits
+                    
                     if(value.length === 1) el.value = "0.0" + value;
                     else if(value.length === 2) el.value = "0." + value;
                     else {
@@ -465,7 +465,7 @@ ${gateStatusText}`;
             const clock = document.getElementById("globalClock");
             const now = new Date();
             
-            // Format: YYYY-MM-DD HH:MM:SS
+            
             const year = now.getFullYear();
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const day = String(now.getDate()).padStart(2, '0');
@@ -478,16 +478,16 @@ ${gateStatusText}`;
 
         setInterval(updateClock, 1000);
         updateClock(); 
-        // --- Hourly accumulation for rainfall ---
+        
         const rainfallIds = ["campana","bosoBoso","aries","mtOro","nangkaUp","napindanDown","scienceGarden"];
 
-        // Load or initialize
+        
         let hourlyRainfall = JSON.parse(localStorage.getItem("hourlyRainfall")) || {};
         rainfallIds.forEach(id => {
             if(hourlyRainfall[id] === undefined) hourlyRainfall[id] = 0;
         });
 
-        // Track last hour
+       
         let lastHour = parseInt(localStorage.getItem("lastHour")) || new Date().getHours();
 
         function checkHourReset() {
@@ -495,15 +495,15 @@ ${gateStatusText}`;
             const currentMinute = now.getMinutes();
             const currentHour = now.getHours();
 
-            // Reset only at minute 09 of each hour
+           
             if (currentMinute === 9 && lastHour !== currentHour) {
                 rainfallIds.forEach(id => hourlyRainfall[id] = 0);
                 lastHour = currentHour;
-                // Update the displayed hourly values to 0
+                
                 rainfallIds.forEach(id => {
                     document.getElementById("hourly" + capitalizeId(id)).textContent = 0;
                 });
-                // Save to localStorage
+                
                 localStorage.setItem("hourlyRainfall", JSON.stringify(hourlyRainfall));
                 localStorage.setItem("lastHour", lastHour);
             }
@@ -513,12 +513,12 @@ ${gateStatusText}`;
 
 
 
-        // Helper to format numbers: remove decimal if whole, else keep 2 decimals
+       
         function formatNumber(num) {
             return Number.isInteger(num) ? num : num.toFixed(2);
         }
 
-        // Update hourly totals & averages
+        
         function updateHourlyTotals() {
             checkHourReset();
             const upstreamIds = ["Campana", "BosoBoso", "Aries", "MtOro", "NangkaUp"];
@@ -530,7 +530,7 @@ ${gateStatusText}`;
             document.getElementById("hourlyTotalUpstream").textContent = formatNumber(upTotal);
             document.getElementById("hourlyAvgUpstream").textContent = formatNumber(upAvg);
 
-            // Downstream
+            
             const downstreamIds = ["NapindanDown", "ScienceGarden"];
             let downTotal = 0;
             downstreamIds.forEach(id => {
@@ -541,7 +541,7 @@ ${gateStatusText}`;
             document.getElementById("hourlyAvgDownstream").textContent = formatNumber(downAvg);
         }
 
-        // Call this after updating hourly values
+       
         function updateHourlyRainfall() {
             rainfallIds.forEach(id => {
                 const el = document.getElementById(id);
@@ -550,10 +550,10 @@ ${gateStatusText}`;
                 document.getElementById("hourly" + capitalizeId(id)).textContent = formatNumber(hourlyRainfall[id]);
             });
 
-            // Update total & average
+            
             updateHourlyTotals();
 
-            // Save
+            
             localStorage.setItem("hourlyRainfall", JSON.stringify(hourlyRainfall));
             localStorage.setItem("lastHour", lastHour);
         }
@@ -564,37 +564,37 @@ ${gateStatusText}`;
             return id.charAt(0).toUpperCase() + id.slice(1);
         }
         document.getElementById("resetHourlyBtn").addEventListener("click", () => {
-            // Reset hourlyRainfall values
+           
             rainfallIds.forEach(id => {
                 hourlyRainfall[id] = 0;
                 document.getElementById("hourly" + capitalizeId(id)).textContent = "0";
             });
 
-            // Reset hourly totals & averages
+           
             document.getElementById("hourlyTotalUpstream").textContent = "0";
             document.getElementById("hourlyAvgUpstream").textContent = "0";
             document.getElementById("hourlyTotalDownstream").textContent = "0";
             document.getElementById("hourlyAvgDownstream").textContent = "0";
 
-            // Save to localStorage
+            
             localStorage.setItem("hourlyRainfall", JSON.stringify(hourlyRainfall));
 
             alert("Hourly data has been reset!");
         });
         function generateHourlyReport() {
-            // Helper to get the content of the hourly elements (e.g., "hourlyCampana")
+            
             const valHourlyRainfall = (id) => {
-                // Construct the hourly ID: e.g., "campana" -> "hourlyCampana"
+                
                 const hourlyId = "hourly" + id.charAt(0).toUpperCase() + id.slice(1);
                 const el = document.getElementById(hourlyId);
                 
-                // If element not found, or text content is empty/zero, return NO DATA
+                
                 if (!el) return "(NO DATA)";
                 const value = el.textContent.trim();
                 return (value === "") ? "(NO DATA)" : value;
             };
 
-            // Helper to get the value of Water Level inputs (same as your original val for non-rainfall)
+            
             const valWaterLevel = (id) => {
                 const el = document.getElementById(id);
                 let value = el?.value || el?.textContent || "(NO DATA)";
@@ -602,7 +602,7 @@ ${gateStatusText}`;
                 return value;
             };
 
-            // --- Date/Time Formatting (copied from original function) ---
+            
             const dateInput = document.getElementById("date").value;
             const dateFormatted = dateInput
                 ? new Date(dateInput).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
@@ -611,7 +611,7 @@ ${gateStatusText}`;
             const timeFrom = document.getElementById("timeFrom").value;
             const timeTo = document.getElementById("timeTo").value;
             
-            // Define inner helper functions used in the template
+            
             function formatTime(timeStr) {
                 const [hour, minute] = timeStr.split(":");
                 let h = parseInt(hour, 10);
@@ -626,10 +626,10 @@ ${gateStatusText}`;
             function formatMM(value) { return value === "(NO DATA)" ? value : value + "mm"; }
             function formatM(value) { return value === "(NO DATA)" ? value : value + "m"; }
             
-            // Get gate status (assuming getGateStatusText is defined elsewhere in your script)
+            
             const gateStatusText = getGateStatusText();
 
-            // --- Report Generation ---
+            
             const report = `MMDA - EFCOS: EFFECTIVE FLOOD CONTROL OPERATION SYSTEM
 (EFCOS)
 
@@ -670,8 +670,13 @@ ${gateStatusText}`;
             document.getElementById("output").value = report;
         }
         
-        // This is the CRITICAL line added previously to make the hourly button work
+        
         document.getElementById("generateHourlyBtn").addEventListener("click", generateHourlyReport);
     </script>
+	
+<footer class="footer-mark-adriano dramatic">
+  <p>Made by Mark Adriano</p>
+</footer>
 </body>
+
 </html>

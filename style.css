@@ -224,7 +224,7 @@ input[type="time"] {
 
 /* --- Report Card and Buttons --- */
 .report-card {
-    height: 100%; /* Fill the remaining height */
+    height: 71%; /* Fill the remaining height */
     display: flex;
     flex-direction: column;
 }
@@ -283,4 +283,25 @@ button:hover {
         /* Stack buttons in a single column on small screens */
         grid-template-columns: 1fr;
     }
+}
+.footer-mark-adriano.dramatic {
+  text-align: center;
+  padding: 20px;
+  background-color: #222222; /* Dark background */
+  color: #ff9900; /* Vibrant accent text color */
+  font-family: 'Georgia', serif;
+  font-size: 1.1em;
+  letter-spacing: 2px; /* Adds a bit of space for drama */
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+.footer-mark-adriano.dramatic p {
+  margin: 0;
+  text-transform: uppercase; /* All caps for emphasis */
+  font-weight: bold;
+}
+header{
+	position: sticky;
+	top:0;
+	z-index: 1000;
 }
