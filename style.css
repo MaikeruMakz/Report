@@ -272,6 +272,7 @@ button:hover {
         /* Stack the columns vertically on tablet/small screens */
         grid-template-columns: 1fr;
     }
+	
 }
 
 @media (max-width: 600px) {
