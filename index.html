@@ -3,171 +3,271 @@
 <head>
 <meta charset="UTF-8">
 <title>Encoding</title>
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="stylebackup.css">
 </head>
 
 <body>
- <h2>MMDA - EFCOS: EFFECTIVE FLOOD CONTROL OPERATION SYSTEM (EFCOS)</h2>
-    <div class="datetime">
-	<p>Date: <input type="date" id="date" class="nav"></p>
-    <p>From: <input type="time" id="timeFrom" class="nav"> To: <input type="time" id="timeTo" class="nav"></p>
-	 </div>
-<div class="container">
+    <header>
+        <div id="globalClock" class="clock"></div>
+        <h1>MMDA - EFCOS: Effective Flood Control Operation System (EFCOS)</h1>
+    </header>
 
-  <div class="inputs">
+    <main class="main-layout">
+        
+        <section class="data-input-column">
+            
+            <div class="card datetime-card">
+                <h3>Report Details</h3>
+                <div class="input-row">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" class="nav">
+                </div>
+                <div class="input-row time-inputs">
+                    <label>Time Range:</label>
+                    <input type="time" id="timeFrom" class="nav">
+                    <span class="to-label">to</span>
+                    <input type="time" id="timeTo" class="nav">
+                </div>
+            </div>
 
-    <h3>UPSTREAM</h3>
-    <p>Mt. Campana: <input type="text" id="campana" class="nav"></p>
-    <p>Boso-Boso: <input type="text" id="bosoBoso" class="nav"></p>
-    <p>Aries: <input type="text" id="aries" class="nav"></p>
-    <p>Mt. Oro: <input type="text" id="mtOro" class="nav"></p>
-    <p>Nangka: <input type="text" id="nangkaUp" class="nav"></p>
-    <p>Total Upstream: <span id="totalUpstream">0</span></p>
-    <p>Average Upstream: <span id="avgUpstream">0</span></p>
+            <div class="card rainfall-card">
+                <h3>RAINFALL (mm)</h3>
+                <div class="key-labels">
+                    <span>Station</span>
+                    <span class="align-right">Current Reading</span>
+                    <span class="align-right">Hourly Total</span>
+                </div>
+                
+                <h4>UPSTREAM</h4>
+                <div class="rainfall-grid">
+                    <label for="campana">Mt. Campana:</label>
+                    <input type="text" id="campana" class="nav current-input">
+                    <span class="hourly" id="hourlyCampana">0</span>
 
-    <h3>DOWNSTREAM</h3>
-    <p>Napindan: <input type="text" id="napindanDown" class="nav"></p>
-    <p>Science Garden: <input type="text" id="scienceGarden" class="nav"></p>
-    <p>Total Downstream: <span id="totalDownstream">0</span></p>
-    <p>Average Downstream: <span id="avgDownstream">0</span></p>
+                    <label for="bosoBoso">Boso-Boso:</label>
+                    <input type="text" id="bosoBoso" class="nav current-input">
+                    <span class="hourly" id="hourlyBosoBoso">0</span>
+                    
+                    <label for="aries">Aries:</label>
+                    <input type="text" id="aries" class="nav current-input">
+                    <span class="hourly" id="hourlyAries">0</span>
+                    
+                    <label for="mtOro">Mt. Oro:</label>
+                    <input type="text" id="mtOro" class="nav current-input">
+                    <span class="hourly" id="hourlyMtOro">0</span>
+                    
+                    <label for="nangkaUp">Nangka:</label>
+                    <input type="text" id="nangkaUp" class="nav current-input">
+                    <span class="hourly" id="hourlyNangkaUp">0</span>
+                    
+                    <span class="total-label">Total Upstream:</span>
+                    <span class="value" id="totalUpstream">0</span>
+                    <span class="hourly total" id="hourlyTotalUpstream">0</span>
+                    
+                    <span class="total-label">Average Upstream:</span>
+                    <span class="value" id="avgUpstream">0</span>
+                    <span class="hourly total" id="hourlyAvgUpstream">0</span>
+                </div>
+                
+                <h4>DOWNSTREAM</h4>
+                <div class="rainfall-grid">
+                    <label for="napindanDown">Napindan:</label>
+                    <input type="text" id="napindanDown" class="nav current-input">
+                    <span class="hourly" id="hourlyNapindanDown">0</span>
+                    
+                    <label for="scienceGarden">Science Garden:</label>
+                    <input type="text" id="scienceGarden" class="nav current-input">
+                    <span class="hourly" id="hourlyScienceGarden">0</span>
 
-    <h3>WATERLEVEL</h3>
-    <p>Montalban: <input type="text" id="montalban" class="nav"></p>
-    <p>Nangka: <input type="text" id="nangkaDown" class="nav"></p>
-    <p>Sto. Niño: <input type="text" id="stoNino" class="nav"></p>
-    <p>Rosario JS: <input type="text" id="rosarioJs" class="nav"></p>
-    <p>Rosario LS: <input type="text" id="rosarioLs" class="nav" readonly></p>
-    <p>Napindan JS: <input type="text" id="napindanJs" class="nav"></p>
-    <p>Napindan LS: <input type="text" id="napindanLs" class="nav" readonly></p>
-    <p>San Juan: <input type="text" id="sanJuan" class="nav"></p>
-    <p>Pandacan: <input type="text" id="pandacan" class="nav"></p>
-    <p>Fort Santiago: <input type="text" id="fortSantiago" class="nav"></p>
-    <p>Angono: <input type="text" id="angono" class="nav"></p>
-  </div>
+                    <span class="total-label">Total Downstream:</span>
+                    <span class="value" id="totalDownstream">0</span>
+                    <span class="hourly total" id="hourlyTotalDownstream">0</span>
 
-<div class="gates">
-  <h3>GATE STATUS</h3>
-  <p>Gate 1: 
-    <input type="radio" name="gate1" value="Open"> Open
-    <input type="radio" name="gate1" value="Close"> Close
-  </p>
-  <p>Gate 2: 
-    <input type="radio" name="gate2" value="Open"> Open
-    <input type="radio" name="gate2" value="Close"> Close
-  </p>
-  <p>Gate 3: 
-    <input type="radio" name="gate3" value="Open"> Open
-    <input type="radio" name="gate3" value="Close"> Close
-  </p>
-  <p>Gate 4: 
-    <input type="radio" name="gate4" value="Open"> Open
-    <input type="radio" name="gate4" value="Close"> Close
-  </p>
-  <p>Gate 5: 
-    <input type="radio" name="gate5" value="Open"> Open
-    <input type="radio" name="gate5" value="Close"> Close
-  </p>
-  <p>Gate 6: 
-    <input type="radio" name="gate6" value="Open"> Open
-    <input type="radio" name="gate6" value="Close"> Close
-  </p>
-  <p>Gate 7: 
-    <input type="radio" name="gate7" value="Open"> Open
-    <input type="radio" name="gate7" value="Close"> Close
-  </p>
-  <p>Gate 8: 
-    <input type="radio" name="gate8" value="Open"> Open
-    <input type="radio" name="gate8" value="Close"> Close
-  </p>
-</div>
-	
+                    <span class="total-label">Average Downstream:</span>
+                    <span class="value" id="avgDownstream">0</span>
+                    <span class="hourly total" id="hourlyAvgDownstream">0</span>
+                </div>
+            </div>
+            
+            <div class="card waterlevel-card">
+                <h3>WATER LEVEL (m)</h3>
+                <div class="waterlevel-grid">
+                    <label for="montalban">Montalban:</label>
+                    <input type="text" id="montalban" class="nav">
+                    <label for="nangkaDown">Nangka:</label>
+                    <input type="text" id="nangkaDown" class="nav">
+                    <label for="stoNino">Sto. Niño:</label>
+                    <input type="text" id="stoNino" class="nav">
+                    <label for="rosarioJs">Rosario JS:</label>
+                    <input type="text" id="rosarioJs" class="nav">
+                    <label for="rosarioLs">Rosario LS:</label>
+                    <input type="text" id="rosarioLs" class="nav" readonly>
+                    <label for="napindanJs">Napindan JS:</label>
+                    <input type="text" id="napindanJs" class="nav">
+                    <label for="napindanLs">Napindan LS:</label>
+                    <input type="text" id="napindanLs" class="nav" readonly>
+                    <label for="sanJuan">San Juan:</label>
+                    <input type="text" id="sanJuan" class="nav">
+                    <label for="pandacan">Pandacan:</label>
+                    <input type="text" id="pandacan" class="nav">
+                    <label for="fortSantiago">Fort Santiago:</label>
+                    <input type="text" id="fortSantiago" class="nav">
+                    <label for="angono">Angono:</label>
+                    <input type="text" id="angono" class="nav">
+                </div>
+            </div>
+        </section>
+
+        <section class="report-output-column">
+            
+            <div class="card gates-card">
+                <h3>GATE STATUS</h3>
+                <div class="gates-grid">
+                    <label>Gate 1:</label>
+                    <div class="radio-group">
+                        <input type="radio" name="gate1" value="Open" id="gate1-open"> <label for="gate1-open">Open</label>
+                        <input type="radio" name="gate1" value="Close" id="gate1-close"> <label for="gate1-close">Close</label>
+                    </div>
+
+                    <label>Gate 2:</label>
+                    <div class="radio-group">
+                        <input type="radio" name="gate2" value="Open" id="gate2-open"> <label for="gate2-open">Open</label>
+                        <input type="radio" name="gate2" value="Close" id="gate2-close"> <label for="gate2-close">Close</label>
+                    </div>
+                    
+                    <label>Gate 3:</label>
+                    <div class="radio-group">
+                        <input type="radio" name="gate3" value="Open" id="gate3-open"> <label for="gate3-open">Open</label>
+                        <input type="radio" name="gate3" value="Close" id="gate3-close"> <label for="gate3-close">Close</label>
+                    </div>
+                    
+                    <label>Gate 4:</label>
+                    <div class="radio-group">
+                        <input type="radio" name="gate4" value="Open" id="gate4-open"> <label for="gate4-open">Open</label>
+                        <input type="radio" name="gate4" value="Close" id="gate4-close"> <label for="gate4-close">Close</label>
+                    </div>
+                    
+                    <label>Gate 5:</label>
+                    <div class="radio-group">
+                        <input type="radio" name="gate5" value="Open" id="gate5-open"> <label for="gate5-open">Open</label>
+                        <input type="radio" name="gate5" value="Close" id="gate5-close"> <label for="gate5-close">Close</label>
+                    </div>
+                    
+                    <label>Gate 6:</label>
+                    <div class="radio-group">
+                        <input type="radio" name="gate6" value="Open" id="gate6-open"> <label for="gate6-open">Open</label>
+                        <input type="radio" name="gate6" value="Close" id="gate6-close"> <label for="gate6-close">Close</label>
+                    </div>
+                    
+                    <label>Gate 7:</label>
+                    <div class="radio-group">
+                        <input type="radio" name="gate7" value="Open" id="gate7-open"> <label for="gate7-open">Open</label>
+                        <input type="radio" name="gate7" value="Close" id="gate7-close"> <label for="gate7-close">Close</label>
+                    </div>
+                    
+                    <label>Gate 8:</label>
+                    <div class="radio-group">
+                        <input type="radio" name="gate8" value="Open" id="gate8-open"> <label for="gate8-open">Open</label>
+                        <input type="radio" name="gate8" value="Close" id="gate8-close"> <label for="gate8-close">Close</label>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="card report-card">
+                <h3>Report Output</h3>
+                <div class="button-group">
+                    <button onclick="generateReport()">Generate **Current** Report</button>
+                    <button id="generateHourlyBtn">Generate **Hourly** Report</button>
+                    <button id="resetHourlyBtn">Reset Hourly Data</button>
+                    <button onclick="copyReport()">Copy Report</button>
+                </div>
+                <textarea id="output" readonly placeholder="The generated report will appear here..."></textarea>
+            </div>
+        </section>
+        
+    </main>
+
+    <script>
+        const inputs = document.querySelectorAll('.nav');
+        inputs.forEach((input, i) => {
+            input.addEventListener('keydown', e => {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    const next = inputs[i + 1];
+                    if (next) next.focus();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    const prev = inputs[i - 1];
+                    if (prev) prev.focus();
+                }
+            });
+        });
+
+        
+        function computeTotals() {
+            const upstreamIds = ["campana", "bosoBoso", "aries", "mtOro", "nangkaUp"];
+            const downstreamIds = ["napindanDown", "scienceGarden"];
+
+            function compute(ids) {
+                const values = ids
+                    .map(id => parseFloat(document.getElementById(id).value) || 0)
+                    .filter(v => !isNaN(v));
+                const total = values.reduce((a, b) => a + b, 0);
+                const avg = values.length ? total / values.length : 0;
+                return { total, avg };
+            }
+
+            const up = compute(upstreamIds);
+            const down = compute(downstreamIds);
+
+            document.getElementById("totalUpstream").textContent = up.total ? Math.round(up.total) : 0;
+            document.getElementById("avgUpstream").textContent = up.avg ? (Number.isInteger(up.avg) ? up.avg : up.avg.toFixed(2).replace(/\.00$/, "")) : 0;
+
+            document.getElementById("totalDownstream").textContent = down.total ? Math.round(down.total) : 0;
+            document.getElementById("avgDownstream").textContent = down.avg ? (Number.isInteger(down.avg) ? down.avg : down.avg.toFixed(2).replace(/\.00$/, "")) : 0;
+
+        }
+
+        document.querySelectorAll('.nav').forEach(el => el.addEventListener('input', computeTotals));
 
 
-  <div class="sidebar">
-    <button onclick="generateReport()">Generate Report</button>
-    <button onclick="copyReport()">Copy Report</button>
-    <textarea id="output" readonly></textarea>
-  </div>
-</div>
+        
+        function generateReport() {
+            computeTotals();
+            const val = (id) => {
+                const el = document.getElementById(id);
+                let value = el?.value || el?.textContent || "(NO DATA)";
+                if (value.trim() === "**") value = "(NO DATA)";
+                return value;
+            };
 
-<script>
-  const inputs = document.querySelectorAll('.nav');
-  inputs.forEach((input, i) => {
-    input.addEventListener('keydown', e => {
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        const next = inputs[i + 1];
-        if (next) next.focus();
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        const prev = inputs[i - 1];
-        if (prev) prev.focus();
-      }
-    });
-  });
+            const dateInput = document.getElementById("date").value;
+            const dateFormatted = dateInput
+                ? new Date(dateInput).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
+                : "(NO DATE)";
 
-  
-  function computeTotals() {
-    const upstreamIds = ["campana", "bosoBoso", "aries", "mtOro", "nangkaUp"];
-    const downstreamIds = ["napindanDown", "scienceGarden"];
+            const timeFrom = document.getElementById("timeFrom").value;
+            const timeTo = document.getElementById("timeTo").value;
+            
+            function formatMM(value) { return value === "(NO DATA)" ? value : value + "mm"; }
+            function formatM(value) { return value === "(NO DATA)" ? value : value + "m"; }
+            function formatTime(timeStr) {
+                const [hour, minute] = timeStr.split(":");
+                let h = parseInt(hour, 10);
+                const ampm = h >= 12 ? "pm" : "am";
+                h = h % 12 || 12;
+                return `${h}:${minute}${ampm}`;
+            }
 
-    function compute(ids) {
-      const values = ids
-        .map(id => parseFloat(document.getElementById(id).value) || 0)
-        .filter(v => !isNaN(v));
-      const total = values.reduce((a, b) => a + b, 0);
-      const avg = values.length ? total / values.length : 0;
-      return { total, avg };
-    }
-
-    const up = compute(upstreamIds);
-    const down = compute(downstreamIds);
-
-document.getElementById("totalUpstream").textContent = up.total ? Math.round(up.total) : 0;
-document.getElementById("avgUpstream").textContent = up.avg ? (Number.isInteger(up.avg) ? up.avg : up.avg.toFixed(2).replace(/\.00$/, "")) : 0;
-
-document.getElementById("totalDownstream").textContent = down.total ? Math.round(down.total) : 0;
-document.getElementById("avgDownstream").textContent = down.avg ? (Number.isInteger(down.avg) ? down.avg : down.avg.toFixed(2).replace(/\.00$/, "")) : 0;
-
-  }
-
-  document.querySelectorAll('.nav').forEach(el => el.addEventListener('input', computeTotals));
+            const timeRange = (timeFrom && timeTo)
+                ? `From ${formatTime(timeFrom)} to ${formatTime(timeTo)}`
+                : "(NO TIME)";
 
 
-	
-  function generateReport() {
-	computeTotals();
-    const val = (id) => {
-      const el = document.getElementById(id);
-      let value = el?.value || el?.textContent || "(NO DATA)";
-      if (value.trim() === "**") value = "(NO DATA)";
-      return value;
-    };
+            const gateStatusText = getGateStatusText();
 
-    const dateInput = document.getElementById("date").value;
-    const dateFormatted = dateInput
-      ? new Date(dateInput).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
-      : "(NO DATE)";
-
-    const timeFrom = document.getElementById("timeFrom").value;
-    const timeTo = document.getElementById("timeTo").value;
-    const timeRange = (timeFrom && timeTo)
-      ? `From ${formatTime(timeFrom)} to ${formatTime(timeTo)}`
-      : "(NO TIME)";
-
-    function formatMM(value) { return value === "(NO DATA)" ? value : value + "mm"; }
-    function formatM(value) { return value === "(NO DATA)" ? value : value + "m"; }
-    function formatTime(timeStr) {
-      const [hour, minute] = timeStr.split(":");
-      let h = parseInt(hour, 10);
-      const ampm = h >= 12 ? "pm" : "am";
-      h = h % 12 || 12;
-      return `${h}:${minute}${ampm}`;
-    }
-
-  const gateStatusText = getGateStatusText();
-
-const report = `MMDA - EFCOS: EFFECTIVE FLOOD CONTROL OPERATION SYSTEM
+            const report = `MMDA - EFCOS: EFFECTIVE FLOOD CONTROL OPERATION SYSTEM
 (EFCOS)
 
 ${dateFormatted}
@@ -204,163 +304,374 @@ Angono - ${formatM(val("angono"))}
 GATE STATUS
 ${gateStatusText}`;
 
-    saveData();
-    document.getElementById("output").value = report;
+            saveData();
+            updateHourlyRainfall();
 
-    
-const fieldsToClear = [
-  "campana", "bosoBoso", "aries", "mtOro", "nangkaUp",
-  "napindanDown", "scienceGarden"
-];
+            document.getElementById("output").value = report;
 
-fieldsToClear.forEach(id => {
-  const el = document.getElementById(id);
-  if(el) el.value = "0"; 
-});
+            
+            const fieldsToClear = [
+                "campana", "bosoBoso", "aries", "mtOro", "nangkaUp",
+                "napindanDown", "scienceGarden"
+            ];
 
-  }
+            fieldsToClear.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.value = "0"; 
+            });
 
-  function copyReport() {
-    const output = document.getElementById("output");
-    output.select();
-    output.setSelectionRange(0, 99999);
-    document.execCommand("copy");
-    alert("Report copied to clipboard!");
-  }
+        }
 
-function saveData() {
+        function copyReport() {
+            const output = document.getElementById("output");
+            output.select();
+            output.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("Report copied to clipboard!");
+        }
 
-  const idsToSave = [
-    "date","timeFrom","timeTo",
-    "montalban","nangkaDown","stoNino","rosarioJs","rosarioLs",
-    "napindanJs","napindanLs","sanJuan","pandacan","fortSantiago","angono"
-  ];
-  const data = {};
-  idsToSave.forEach(id => {
-    const el = document.getElementById(id);
-    if(el) data[id] = el.value;
-  });
+        function saveData() {
 
-
-  for (let i = 1; i <= 8; i++) {
-    const gateRadios = document.getElementsByName(`gate${i}`);
-    gateRadios.forEach(radio => {
-      if (radio.checked) data[`gate${i}`] = radio.value;
-    });
-  }
-
-  localStorage.setItem("savedData", JSON.stringify(data));
-}
-
-window.addEventListener("load", () => {
-  const saved = localStorage.getItem("savedData");
-  if(saved) {
-    const data = JSON.parse(saved);
+            const idsToSave = [
+                "date","timeFrom","timeTo",
+                "montalban","nangkaDown","stoNino","rosarioJs","rosarioLs",
+                "napindanJs","napindanLs","sanJuan","pandacan","fortSantiago","angono"
+            ];
+            const data = {};
+            idsToSave.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) data[id] = el.value;
+            });
 
 
-    Object.keys(data).forEach(id => {
-      const el = document.getElementById(id);
-      if(el) el.value = data[id];
-    });
+            for (let i = 1; i <= 8; i++) {
+                const gateRadios = document.getElementsByName(`gate${i}`);
+                gateRadios.forEach(radio => {
+                    if (radio.checked) data[`gate${i}`] = radio.value;
+                });
+            }
+
+            localStorage.setItem("savedData", JSON.stringify(data));
+        }
+
+        window.addEventListener("load", () => {
+            const saved = localStorage.getItem("savedData");
+            if(saved) {
+                const data = JSON.parse(saved);
 
 
-    for (let i = 1; i <= 8; i++) {
-      const gateRadios = document.getElementsByName(`gate${i}`);
-      gateRadios.forEach(radio => {
-        if(radio.value === data[`gate${i}`]) radio.checked = true;
-      });
-    }
-  }
-});
-
-const waterIds = [
-  "montalban", "nangkaDown", "stoNino", "rosarioJs", "rosarioLs",
-  "napindanJs", "napindanLs", "sanJuan", "pandacan", "fortSantiago", "angono"
-];
-
-waterIds.forEach(id => {
-  const el = document.getElementById(id);
-  if(el) {
-    // Initialize display
-    if(!el.value || el.value === "0") el.value = "(NO DATA)";
-
-    el.addEventListener("input", () => {
-      // Remove non-digits
-      let value = el.value.replace(/\D/g, "");
-
-      if(!value || parseInt(value) === 0) {
-        el.value = "(NO DATA)";
-        return;
-      }
-
-      // Limit to 5 digits max
-      if(value.length > 4) value = value.slice(0,4);
-
-      // Insert decimal before last two digits
-      if(value.length === 1) el.value = "0.0" + value;
-      else if(value.length === 2) el.value = "0." + value;
-      else {
-        const intPart = value.slice(0, value.length - 2).replace(/^0+/, '') || "0";
-        const decPart = value.slice(-2);
-        el.value = intPart + "." + decPart;
-      }
-    });
-
-    el.addEventListener("focus", () => {
-      if(el.value === "(NO DATA)") el.value = "";
-    });
-
-    el.addEventListener("blur", () => {
-      if(!el.value || parseFloat(el.value) === 0) el.value = "(NO DATA)";
-    });
-  }
-});
-
-const defaultZeroIds = [
-  "campana","bosoBoso","aries","mtOro","nangkaUp",
-  "napindanDown","scienceGarden"
-];
-
-defaultZeroIds.forEach(id => {
-  const el = document.getElementById(id);
-  if(el) {
-
-    if(!el.value) el.value = "0";
-
-    el.addEventListener("focus", () => {
-      if(el.value === "0") el.value = ""; 
-    });
-
-    el.addEventListener("blur", () => {
-      if(el.value.trim() === "") el.value = "0"; 
-    });
-  }
-});
-function getGateStatusText() {
-  const openGates = [];
-
-  for (let i = 1; i <= 8; i++) {
-    const radios = document.getElementsByName(`gate${i}`);
-    radios.forEach(radio => {
-      if (radio.checked && radio.value === "Open") {
-        openGates.push(i);
-      }
-    });
-  }
-
-  if (openGates.length === 0) return "NO GATES ARE OPEN";
-  if (openGates.length === 8) return "ALL GATES ARE OPEN";
-
-  if (openGates.length === 1) return `GATE ${openGates[0]} IS OPEN`;
-  if (openGates.length === 2) return `GATES ${openGates[0]} AND ${openGates[1]} ARE OPEN`;
+                Object.keys(data).forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) el.value = data[id];
+                });
 
 
-  const lastGate = openGates.pop();
-  return `GATES ${openGates.join(", ")}, AND ${lastGate} ARE OPEN`;
-}
+                for (let i = 1; i <= 8; i++) {
+                    const gateRadios = document.getElementsByName(`gate${i}`);
+                    gateRadios.forEach(radio => {
+                        if(radio.value === data[`gate${i}`]) radio.checked = true;
+                    });
+                }
+            }
+        });
 
-	
-</script>
+        const waterIds = [
+            "montalban", "nangkaDown", "stoNino", "rosarioJs", "rosarioLs",
+            "napindanJs", "napindanLs", "sanJuan", "pandacan", "fortSantiago", "angono"
+        ];
 
+        waterIds.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) {
+                // Initialize display
+                if(!el.value || el.value === "0") el.value = "(NO DATA)";
+
+                el.addEventListener("input", () => {
+                    // Remove non-digits
+                    let value = el.value.replace(/\D/g, "");
+
+                    if(!value || parseInt(value) === 0) {
+                        el.value = "(NO DATA)";
+                        return;
+                    }
+
+                    // Limit to 5 digits max
+                    if(value.length > 4) value = value.slice(0,4);
+
+                    // Insert decimal before last two digits
+                    if(value.length === 1) el.value = "0.0" + value;
+                    else if(value.length === 2) el.value = "0." + value;
+                    else {
+                        const intPart = value.slice(0, value.length - 2).replace(/^0+/, '') || "0";
+                        const decPart = value.slice(-2);
+                        el.value = intPart + "." + decPart;
+                    }
+                });
+
+                el.addEventListener("focus", () => {
+                    if(el.value === "(NO DATA)") el.value = "";
+                });
+
+                el.addEventListener("blur", () => {
+                    if(!el.value || parseFloat(el.value) === 0) el.value = "(NO DATA)";
+                });
+            }
+        });
+
+        const defaultZeroIds = [
+            "campana","bosoBoso","aries","mtOro","nangkaUp",
+            "napindanDown","scienceGarden"
+        ];
+
+        defaultZeroIds.forEach(id => {
+            const el = document.getElementById(id);
+            if(el) {
+
+                if(!el.value) el.value = "0";
+
+                el.addEventListener("focus", () => {
+                    if(el.value === "0") el.value = ""; 
+                });
+
+                el.addEventListener("blur", () => {
+                    if(el.value.trim() === "") el.value = "0"; 
+                });
+            }
+        });
+        function getGateStatusText() {
+            const openGates = [];
+
+            for (let i = 1; i <= 8; i++) {
+                const radios = document.getElementsByName(`gate${i}`);
+                radios.forEach(radio => {
+                    if (radio.checked && radio.value === "Open") {
+                        openGates.push(i);
+                    }
+                });
+            }
+
+            if (openGates.length === 0) return "NO GATES ARE OPEN";
+            if (openGates.length === 8) return "ALL GATES ARE OPEN";
+
+            if (openGates.length === 1) return `GATE ${openGates[0]} IS OPEN`;
+            if (openGates.length === 2) return `GATES ${openGates[0]} AND ${openGates[1]} ARE OPEN`;
+
+
+            const lastGate = openGates.pop();
+            return `GATES ${openGates.join(", ")}, AND ${lastGate} ARE OPEN`;
+        }
+        
+        function updateClock() {
+            const clock = document.getElementById("globalClock");
+            const now = new Date();
+            
+            // Format: YYYY-MM-DD HH:MM:SS
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            
+            clock.textContent = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock(); 
+        // --- Hourly accumulation for rainfall ---
+        const rainfallIds = ["campana","bosoBoso","aries","mtOro","nangkaUp","napindanDown","scienceGarden"];
+
+        // Load or initialize
+        let hourlyRainfall = JSON.parse(localStorage.getItem("hourlyRainfall")) || {};
+        rainfallIds.forEach(id => {
+            if(hourlyRainfall[id] === undefined) hourlyRainfall[id] = 0;
+        });
+
+        // Track last hour
+        let lastHour = parseInt(localStorage.getItem("lastHour")) || new Date().getHours();
+
+        function checkHourReset() {
+            const now = new Date();
+            const currentMinute = now.getMinutes();
+            const currentHour = now.getHours();
+
+            // Reset only at minute 09 of each hour
+            if (currentMinute === 9 && lastHour !== currentHour) {
+                rainfallIds.forEach(id => hourlyRainfall[id] = 0);
+                lastHour = currentHour;
+                // Update the displayed hourly values to 0
+                rainfallIds.forEach(id => {
+                    document.getElementById("hourly" + capitalizeId(id)).textContent = 0;
+                });
+                // Save to localStorage
+                localStorage.setItem("hourlyRainfall", JSON.stringify(hourlyRainfall));
+                localStorage.setItem("lastHour", lastHour);
+            }
+        }
+
+
+
+
+
+        // Helper to format numbers: remove decimal if whole, else keep 2 decimals
+        function formatNumber(num) {
+            return Number.isInteger(num) ? num : num.toFixed(2);
+        }
+
+        // Update hourly totals & averages
+        function updateHourlyTotals() {
+            checkHourReset();
+            const upstreamIds = ["Campana", "BosoBoso", "Aries", "MtOro", "NangkaUp"];
+            let upTotal = 0;
+            upstreamIds.forEach(id => {
+                upTotal += parseFloat(document.getElementById("hourly" + id).textContent) || 0;
+            });
+            const upAvg = upstreamIds.length ? upTotal / upstreamIds.length : 0;
+            document.getElementById("hourlyTotalUpstream").textContent = formatNumber(upTotal);
+            document.getElementById("hourlyAvgUpstream").textContent = formatNumber(upAvg);
+
+            // Downstream
+            const downstreamIds = ["NapindanDown", "ScienceGarden"];
+            let downTotal = 0;
+            downstreamIds.forEach(id => {
+                downTotal += parseFloat(document.getElementById("hourly" + id).textContent) || 0;
+            });
+            const downAvg = downstreamIds.length ? downTotal / downstreamIds.length : 0;
+            document.getElementById("hourlyTotalDownstream").textContent = formatNumber(downTotal);
+            document.getElementById("hourlyAvgDownstream").textContent = formatNumber(downAvg);
+        }
+
+        // Call this after updating hourly values
+        function updateHourlyRainfall() {
+            rainfallIds.forEach(id => {
+                const el = document.getElementById(id);
+                const value = parseFloat(el.value) || 0;
+                hourlyRainfall[id] += value;
+                document.getElementById("hourly" + capitalizeId(id)).textContent = formatNumber(hourlyRainfall[id]);
+            });
+
+            // Update total & average
+            updateHourlyTotals();
+
+            // Save
+            localStorage.setItem("hourlyRainfall", JSON.stringify(hourlyRainfall));
+            localStorage.setItem("lastHour", lastHour);
+        }
+
+
+
+        function capitalizeId(id) {
+            return id.charAt(0).toUpperCase() + id.slice(1);
+        }
+        document.getElementById("resetHourlyBtn").addEventListener("click", () => {
+            // Reset hourlyRainfall values
+            rainfallIds.forEach(id => {
+                hourlyRainfall[id] = 0;
+                document.getElementById("hourly" + capitalizeId(id)).textContent = "0";
+            });
+
+            // Reset hourly totals & averages
+            document.getElementById("hourlyTotalUpstream").textContent = "0";
+            document.getElementById("hourlyAvgUpstream").textContent = "0";
+            document.getElementById("hourlyTotalDownstream").textContent = "0";
+            document.getElementById("hourlyAvgDownstream").textContent = "0";
+
+            // Save to localStorage
+            localStorage.setItem("hourlyRainfall", JSON.stringify(hourlyRainfall));
+
+            alert("Hourly data has been reset!");
+        });
+        function generateHourlyReport() {
+            // Helper to get the content of the hourly elements (e.g., "hourlyCampana")
+            const valHourlyRainfall = (id) => {
+                // Construct the hourly ID: e.g., "campana" -> "hourlyCampana"
+                const hourlyId = "hourly" + id.charAt(0).toUpperCase() + id.slice(1);
+                const el = document.getElementById(hourlyId);
+                
+                // If element not found, or text content is empty/zero, return NO DATA
+                if (!el) return "(NO DATA)";
+                const value = el.textContent.trim();
+                return (value === "") ? "(NO DATA)" : value;
+            };
+
+            // Helper to get the value of Water Level inputs (same as your original val for non-rainfall)
+            const valWaterLevel = (id) => {
+                const el = document.getElementById(id);
+                let value = el?.value || el?.textContent || "(NO DATA)";
+                if (value.trim() === "**") value = "(NO DATA)";
+                return value;
+            };
+
+            // --- Date/Time Formatting (copied from original function) ---
+            const dateInput = document.getElementById("date").value;
+            const dateFormatted = dateInput
+                ? new Date(dateInput).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
+                : "(NO DATE)";
+                
+            const timeFrom = document.getElementById("timeFrom").value;
+            const timeTo = document.getElementById("timeTo").value;
+            
+            // Define inner helper functions used in the template
+            function formatTime(timeStr) {
+                const [hour, minute] = timeStr.split(":");
+                let h = parseInt(hour, 10);
+                const ampm = h >= 12 ? "pm" : "am";
+                h = h % 12 || 12;
+                return `${h}:${minute}${ampm}`;
+            }
+            const timeRange = (timeFrom && timeTo)
+                ? `From ${formatTime(timeFrom)} to ${formatTime(timeTo)}`
+                : "(NO TIME)";
+
+            function formatMM(value) { return value === "(NO DATA)" ? value : value + "mm"; }
+            function formatM(value) { return value === "(NO DATA)" ? value : value + "m"; }
+            
+            // Get gate status (assuming getGateStatusText is defined elsewhere in your script)
+            const gateStatusText = getGateStatusText();
+
+            // --- Report Generation ---
+            const report = `MMDA - EFCOS: EFFECTIVE FLOOD CONTROL OPERATION SYSTEM
+(EFCOS)
+
+${dateFormatted}
+${timeRange}
+
+UPSTREAM
+Mt.Campana - ${formatMM(valHourlyRainfall("campana"))}
+Boso-Boso - ${formatMM(valHourlyRainfall("bosoBoso"))}
+Aries - ${formatMM(valHourlyRainfall("aries"))}
+Mt.Oro - ${formatMM(valHourlyRainfall("mtOro"))}
+Nangka - ${formatMM(valHourlyRainfall("nangkaUp"))}
+Total Upstream - ${formatMM(valHourlyRainfall("totalUpstream"))}
+Average Upstream - ${formatMM(valHourlyRainfall("avgUpstream"))}
+
+DOWNSTREAM
+Napindan - ${formatMM(valHourlyRainfall("napindanDown"))}
+Science Garden - ${formatMM(valHourlyRainfall("scienceGarden"))}
+Total Downstream - ${formatMM(valHourlyRainfall("totalDownstream"))}
+Average Downstream - ${formatMM(valHourlyRainfall("avgDownstream"))}
+
+WATERLEVEL
+Montalban - ${formatM(valWaterLevel("montalban"))}
+Nangka - ${formatM(valWaterLevel("nangkaDown"))}
+Sto. Niño - ${formatM(valWaterLevel("stoNino"))}
+Rosario JS - ${formatM(valWaterLevel("rosarioJs"))}
+Rosario LS - ${formatM(valWaterLevel("rosarioLs"))}
+Napindan JS - ${formatM(valWaterLevel("napindanJs"))}
+Napindan LS - ${formatM(valWaterLevel("napindanLs"))}
+San Juan - ${formatM(valWaterLevel("sanJuan"))}
+Pandacan - ${formatM(valWaterLevel("pandacan"))}
+Fort Santiago - ${formatM(valWaterLevel("fortSantiago"))}
+Angono - ${formatM(valWaterLevel("angono"))}
+
+GATE STATUS
+${gateStatusText}`;
+
+            document.getElementById("output").value = report;
+        }
+        
+        // This is the CRITICAL line added previously to make the hourly button work
+        document.getElementById("generateHourlyBtn").addEventListener("click", generateHourlyReport);
+    </script>
 </body>
 </html>
