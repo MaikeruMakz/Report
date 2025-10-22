@@ -281,32 +281,41 @@ const waterIds = [
 waterIds.forEach(id => {
   const el = document.getElementById(id);
   if(el) {
-    el.addEventListener("input", () => {
-      let value = el.value.replace(/\D/g, ""); 
+    // Initialize display
+    if(!el.value || el.value === "0") el.value = "(NO DATA)";
 
-      if(value.length === 0){
-        el.value = "";
+    el.addEventListener("input", () => {
+      // Remove non-digits
+      let value = el.value.replace(/\D/g, "");
+
+      if(!value || parseInt(value) === 0) {
+        el.value = "(NO DATA)";
         return;
       }
 
-
+      // Limit to 5 digits max
       if(value.length > 4) value = value.slice(0,4);
 
-      let formatted;
-      if(value.length === 1) {
-        formatted = "0.0" + value;
-      } else if(value.length === 2) {
-        formatted = "0." + value;
-      } else {
+      // Insert decimal before last two digits
+      if(value.length === 1) el.value = "0.0" + value;
+      else if(value.length === 2) el.value = "0." + value;
+      else {
         const intPart = value.slice(0, value.length - 2).replace(/^0+/, '') || "0";
         const decPart = value.slice(-2);
-        formatted = intPart + "." + decPart;
+        el.value = intPart + "." + decPart;
       }
+    });
 
-      el.value = formatted;
+    el.addEventListener("focus", () => {
+      if(el.value === "(NO DATA)") el.value = "";
+    });
+
+    el.addEventListener("blur", () => {
+      if(!el.value || parseFloat(el.value) === 0) el.value = "(NO DATA)";
     });
   }
 });
+
 const defaultZeroIds = [
   "campana","bosoBoso","aries","mtOro","nangkaUp",
   "napindanDown","scienceGarden"
