@@ -272,6 +272,19 @@ button:hover {
         
         grid-template-columns: 1fr;
     }
+	.key-labels {
+		word-break: break-word;
+        overflow-wrap: break-word;
+    font-size: 8.2px;
+    display: grid;
+    grid-template-columns: 1fr 80px 80px;
+    gap: 5px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
 	
 }
 
@@ -280,15 +293,22 @@ button:hover {
         
         grid-template-columns: auto 1fr;
     }
-	.key-labels,
-    .rainfall-grid {
-        /* Change from fixed 80px columns to fractional (fluid) columns */
-        grid-template-columns: 1fr repeat(2, minmax(60px, 1fr));
-    }
+	.key-labels {
+    display: grid;
+    grid-template-columns: 1fr 80px 80px;
+    gap: 10px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+
     .button-group {
         
         grid-template-columns: 1fr;
     }
+
 }
 .footer-mark-adriano.dramatic {
   text-align: center;
