@@ -1,0 +1,357 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Encoding</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+ <h2>MMDA - EFCOS: EFFECTIVE FLOOD CONTROL OPERATION SYSTEM (EFCOS)</h2>
+    <div class="datetime">
+	<p>Date: <input type="date" id="date" class="nav"></p>
+    <p>From: <input type="time" id="timeFrom" class="nav"> To: <input type="time" id="timeTo" class="nav"></p>
+	 </div>
+<div class="container">
+
+  <div class="inputs">
+
+    <h3>UPSTREAM</h3>
+    <p>Mt. Campana: <input type="text" id="campana" class="nav"></p>
+    <p>Boso-Boso: <input type="text" id="bosoBoso" class="nav"></p>
+    <p>Aries: <input type="text" id="aries" class="nav"></p>
+    <p>Mt. Oro: <input type="text" id="mtOro" class="nav"></p>
+    <p>Nangka: <input type="text" id="nangkaUp" class="nav"></p>
+    <p>Total Upstream: <span id="totalUpstream">0</span></p>
+    <p>Average Upstream: <span id="avgUpstream">0</span></p>
+
+    <h3>DOWNSTREAM</h3>
+    <p>Napindan: <input type="text" id="napindanDown" class="nav"></p>
+    <p>Science Garden: <input type="text" id="scienceGarden" class="nav"></p>
+    <p>Total Downstream: <span id="totalDownstream">0</span></p>
+    <p>Average Downstream: <span id="avgDownstream">0</span></p>
+
+    <h3>WATERLEVEL</h3>
+    <p>Montalban: <input type="text" id="montalban" class="nav"></p>
+    <p>Nangka: <input type="text" id="nangkaDown" class="nav"></p>
+    <p>Sto. Niño: <input type="text" id="stoNino" class="nav"></p>
+    <p>Rosario JS: <input type="text" id="rosarioJs" class="nav"></p>
+    <p>Rosario LS: <input type="text" id="rosarioLs" class="nav" readonly></p>
+    <p>Napindan JS: <input type="text" id="napindanJs" class="nav"></p>
+    <p>Napindan LS: <input type="text" id="napindanLs" class="nav" readonly></p>
+    <p>San Juan: <input type="text" id="sanJuan" class="nav"></p>
+    <p>Pandacan: <input type="text" id="pandacan" class="nav"></p>
+    <p>Fort Santiago: <input type="text" id="fortSantiago" class="nav"></p>
+    <p>Angono: <input type="text" id="angono" class="nav"></p>
+  </div>
+
+<div class="gates">
+  <h3>GATE STATUS</h3>
+  <p>Gate 1: 
+    <input type="radio" name="gate1" value="Open"> Open
+    <input type="radio" name="gate1" value="Close"> Close
+  </p>
+  <p>Gate 2: 
+    <input type="radio" name="gate2" value="Open"> Open
+    <input type="radio" name="gate2" value="Close"> Close
+  </p>
+  <p>Gate 3: 
+    <input type="radio" name="gate3" value="Open"> Open
+    <input type="radio" name="gate3" value="Close"> Close
+  </p>
+  <p>Gate 4: 
+    <input type="radio" name="gate4" value="Open"> Open
+    <input type="radio" name="gate4" value="Close"> Close
+  </p>
+  <p>Gate 5: 
+    <input type="radio" name="gate5" value="Open"> Open
+    <input type="radio" name="gate5" value="Close"> Close
+  </p>
+  <p>Gate 6: 
+    <input type="radio" name="gate6" value="Open"> Open
+    <input type="radio" name="gate6" value="Close"> Close
+  </p>
+  <p>Gate 7: 
+    <input type="radio" name="gate7" value="Open"> Open
+    <input type="radio" name="gate7" value="Close"> Close
+  </p>
+  <p>Gate 8: 
+    <input type="radio" name="gate8" value="Open"> Open
+    <input type="radio" name="gate8" value="Close"> Close
+  </p>
+</div>
+	
+
+
+  <div class="sidebar">
+    <button onclick="generateReport()">Generate Report</button>
+    <button onclick="copyReport()">Copy Report</button>
+    <textarea id="output" readonly></textarea>
+  </div>
+</div>
+
+<script>
+  const inputs = document.querySelectorAll('.nav');
+  inputs.forEach((input, i) => {
+    input.addEventListener('keydown', e => {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = inputs[i + 1];
+        if (next) next.focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = inputs[i - 1];
+        if (prev) prev.focus();
+      }
+    });
+  });
+
+  
+  function computeTotals() {
+    const upstreamIds = ["campana", "bosoBoso", "aries", "mtOro", "nangkaUp"];
+    const downstreamIds = ["napindanDown", "scienceGarden"];
+
+    function compute(ids) {
+      const values = ids
+        .map(id => parseFloat(document.getElementById(id).value) || 0)
+        .filter(v => !isNaN(v));
+      const total = values.reduce((a, b) => a + b, 0);
+      const avg = values.length ? total / values.length : 0;
+      return { total, avg };
+    }
+
+    const up = compute(upstreamIds);
+    const down = compute(downstreamIds);
+
+document.getElementById("totalUpstream").textContent = up.total ? Math.round(up.total) : 0;
+document.getElementById("avgUpstream").textContent = up.avg ? (Number.isInteger(up.avg) ? up.avg : up.avg.toFixed(2).replace(/\.00$/, "")) : 0;
+
+document.getElementById("totalDownstream").textContent = down.total ? Math.round(down.total) : 0;
+document.getElementById("avgDownstream").textContent = down.avg ? (Number.isInteger(down.avg) ? down.avg : down.avg.toFixed(2).replace(/\.00$/, "")) : 0;
+
+  }
+
+  document.querySelectorAll('.nav').forEach(el => el.addEventListener('input', computeTotals));
+
+
+	
+  function generateReport() {
+	computeTotals();
+    const val = (id) => {
+      const el = document.getElementById(id);
+      let value = el?.value || el?.textContent || "(NO DATA)";
+      if (value.trim() === "**") value = "(NO DATA)";
+      return value;
+    };
+
+    const dateInput = document.getElementById("date").value;
+    const dateFormatted = dateInput
+      ? new Date(dateInput).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
+      : "(NO DATE)";
+
+    const timeFrom = document.getElementById("timeFrom").value;
+    const timeTo = document.getElementById("timeTo").value;
+    const timeRange = (timeFrom && timeTo)
+      ? `From ${formatTime(timeFrom)} to ${formatTime(timeTo)}`
+      : "(NO TIME)";
+
+    function formatMM(value) { return value === "(NO DATA)" ? value : value + "mm"; }
+    function formatM(value) { return value === "(NO DATA)" ? value : value + "m"; }
+    function formatTime(timeStr) {
+      const [hour, minute] = timeStr.split(":");
+      let h = parseInt(hour, 10);
+      const ampm = h >= 12 ? "pm" : "am";
+      h = h % 12 || 12;
+      return `${h}:${minute}${ampm}`;
+    }
+
+  const gateStatusText = getGateStatusText();
+
+const report = `MMDA - EFCOS: EFFECTIVE FLOOD CONTROL OPERATION SYSTEM
+(EFCOS)
+
+${dateFormatted}
+${timeRange}
+
+UPSTREAM
+Mt.Campana - ${formatMM(val("campana"))}
+Boso-Boso - ${formatMM(val("bosoBoso"))}
+Aries - ${formatMM(val("aries"))}
+Mt.Oro - ${formatMM(val("mtOro"))}
+Nangka - ${formatMM(val("nangkaUp"))}
+Total Upstream - ${formatMM(val("totalUpstream"))}
+Average Upstream - ${formatMM(val("avgUpstream"))}
+
+DOWNSTREAM
+Napindan - ${formatMM(val("napindanDown"))}
+Science Garden - ${formatMM(val("scienceGarden"))}
+Total Downstream - ${formatMM(val("totalDownstream"))}
+Average Downstream - ${formatMM(val("avgDownstream"))}
+
+WATERLEVEL
+Montalban - ${formatM(val("montalban"))}
+Nangka - ${formatM(val("nangkaDown"))}
+Sto. Niño - ${formatM(val("stoNino"))}
+Rosario JS - ${formatM(val("rosarioJs"))}
+Rosario LS - ${formatM(val("rosarioLs"))}
+Napindan JS - ${formatM(val("napindanJs"))}
+Napindan LS - ${formatM(val("napindanLs"))}
+San Juan - ${formatM(val("sanJuan"))}
+Pandacan - ${formatM(val("pandacan"))}
+Fort Santiago - ${formatM(val("fortSantiago"))}
+Angono - ${formatM(val("angono"))}
+
+GATE STATUS
+${gateStatusText}`;
+
+    saveData();
+    document.getElementById("output").value = report;
+
+    
+const fieldsToClear = [
+  "campana", "bosoBoso", "aries", "mtOro", "nangkaUp",
+  "napindanDown", "scienceGarden"
+];
+
+fieldsToClear.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) el.value = "0"; 
+});
+
+  }
+
+  function copyReport() {
+    const output = document.getElementById("output");
+    output.select();
+    output.setSelectionRange(0, 99999);
+    document.execCommand("copy");
+    alert("Report copied to clipboard!");
+  }
+
+function saveData() {
+
+  const idsToSave = [
+    "date","timeFrom","timeTo",
+    "montalban","nangkaDown","stoNino","rosarioJs","rosarioLs",
+    "napindanJs","napindanLs","sanJuan","pandacan","fortSantiago","angono"
+  ];
+  const data = {};
+  idsToSave.forEach(id => {
+    const el = document.getElementById(id);
+    if(el) data[id] = el.value;
+  });
+
+
+  for (let i = 1; i <= 8; i++) {
+    const gateRadios = document.getElementsByName(`gate${i}`);
+    gateRadios.forEach(radio => {
+      if (radio.checked) data[`gate${i}`] = radio.value;
+    });
+  }
+
+  localStorage.setItem("savedData", JSON.stringify(data));
+}
+
+window.addEventListener("load", () => {
+  const saved = localStorage.getItem("savedData");
+  if(saved) {
+    const data = JSON.parse(saved);
+
+
+    Object.keys(data).forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.value = data[id];
+    });
+
+
+    for (let i = 1; i <= 8; i++) {
+      const gateRadios = document.getElementsByName(`gate${i}`);
+      gateRadios.forEach(radio => {
+        if(radio.value === data[`gate${i}`]) radio.checked = true;
+      });
+    }
+  }
+});
+
+const waterIds = [
+  "montalban", "nangkaDown", "stoNino", "rosarioJs", "rosarioLs",
+  "napindanJs", "napindanLs", "sanJuan", "pandacan", "fortSantiago", "angono"
+];
+
+waterIds.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) {
+    el.addEventListener("input", () => {
+      let value = el.value.replace(/\D/g, ""); 
+
+      if(value.length === 0){
+        el.value = "";
+        return;
+      }
+
+
+      if(value.length > 4) value = value.slice(0,4);
+
+      let formatted;
+      if(value.length === 1) {
+        formatted = "0.0" + value;
+      } else if(value.length === 2) {
+        formatted = "0." + value;
+      } else {
+        const intPart = value.slice(0, value.length - 2).replace(/^0+/, '') || "0";
+        const decPart = value.slice(-2);
+        formatted = intPart + "." + decPart;
+      }
+
+      el.value = formatted;
+    });
+  }
+});
+const defaultZeroIds = [
+  "campana","bosoBoso","aries","mtOro","nangkaUp",
+  "napindanDown","scienceGarden"
+];
+
+defaultZeroIds.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) {
+
+    if(!el.value) el.value = "0";
+
+    el.addEventListener("focus", () => {
+      if(el.value === "0") el.value = ""; 
+    });
+
+    el.addEventListener("blur", () => {
+      if(el.value.trim() === "") el.value = "0"; 
+    });
+  }
+});
+function getGateStatusText() {
+  const openGates = [];
+
+  for (let i = 1; i <= 8; i++) {
+    const radios = document.getElementsByName(`gate${i}`);
+    radios.forEach(radio => {
+      if (radio.checked && radio.value === "Open") {
+        openGates.push(i);
+      }
+    });
+  }
+
+  if (openGates.length === 0) return "NO GATES ARE OPEN";
+  if (openGates.length === 8) return "ALL GATES ARE OPEN";
+
+  if (openGates.length === 1) return `GATE ${openGates[0]} IS OPEN`;
+  if (openGates.length === 2) return `GATES ${openGates[0]} AND ${openGates[1]} ARE OPEN`;
+
+
+  const lastGate = openGates.pop();
+  return `GATES ${openGates.join(", ")}, AND ${lastGate} ARE OPEN`;
+}
+
+	
+</script>
+
+</body>
+</html>
