@@ -206,26 +206,28 @@
 
         
         function computeTotals() {
-            const upstreamIds = ["campana", "bosoBoso", "aries", "mtOro", "nangkaUp"];
-            const downstreamIds = ["napindanDown", "scienceGarden"];
+            const upstreamIds = ["campana", "bosoBoso", "aries", "mtOro", "nangkaUp"];
+            const downstreamIds = ["napindanDown", "scienceGarden"];
 
-            function compute(ids) {
-                const values = ids
-                    .map(id => parseFloat(document.getElementById(id).value) || 0)
-                    .filter(v => !isNaN(v));
-                const total = values.reduce((a, b) => a + b, 0);
-                const avg = values.length ? total / values.length : 0;
-                return { total, avg };
-            }
+            function compute(ids) {
+                const values = ids
+                    .map(id => parseFloat(document.getElementById(id).value) || 0)
+                    .filter(v => !isNaN(v));
+                const total = values.reduce((a, b) => a + b, 0);
+                const avg = values.length ? total / values.length : 0;
+                return { total, avg };
+            }
 
-            const up = compute(upstreamIds);
-            const down = compute(downstreamIds);
+            const up = compute(upstreamIds);
+            const down = compute(downstreamIds);
 
-            document.getElementById("totalUpstream").textContent = up.total ? Math.round(up.total) : 0;
-            document.getElementById("avgUpstream").textContent = up.avg ? (Number.isInteger(up.avg) ? up.avg : up.avg.toFixed(2).replace(/\.00$/, "")) : 0;
+            document.getElementById("totalUpstream").textContent = up.total ? Math.round(up.total) : 0;
+            document.getElementById("avgUpstream").textContent = up.avg ? (Number.isInteger(up.avg) ? up.avg : parseFloat(up.avg.toFixed(2).replace(/\.00$/, "")).toString()) : 0;
 
-            document.getElementById("totalDownstream").textContent = down.total ? Math.round(down.total) : 0;
-            document.getElementById("avgDownstream").textContent = down.avg ? (Number.isInteger(down.avg) ? down.avg : down.avg.toFixed(2).replace(/\.00$/, "")) : 0;
+            document.getElementById("totalDownstream").textContent = down.total ? Math.round(down.total) : 0;
+            document.getElementById("avgDownstream").textContent = down.avg ? (Number.isInteger(down.avg) ? down.avg : parseFloat(down.avg.toFixed(2).replace(/\.00$/, "")).toString()) : 0;
+
+        
 
         }
 
@@ -508,7 +510,13 @@ ${gateStatusText}`;
                 localStorage.setItem("lastHour", lastHour);
             }
         }
-
+function formatAverage(avg) {
+    if (!avg) return 0;
+    // Round to the nearest 0.1, or to one decimal place if needed
+    let formatted = (Math.round(avg * 10) / 10).toFixed(1);
+    // Remove the decimal part if it's .0 (e.g., "1.0" becomes "1")
+    return formatted.endsWith(".0") ? formatted.slice(0, -2) : formatted;
+}
 
 
 
